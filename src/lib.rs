@@ -174,23 +174,23 @@
 //! All the macros have pretty much the same syntax:
 //!
 //! 1.  ```ignore
-//!   `abort!(single_expr)`
-//!   ```
-//!   Shortcut for `Diagnostic::from(expr).abort()`.
+//!     abort!(single_expr)
+//!     ```
+//!     Shortcut for `Diagnostic::from(expr).abort()`.
 //!
 //! 2.  ```ignore
-//!   abort!(span, message)
-//!   ```
-//!   The first argument is an expression the span info should be taken from.
+//!     abort!(span, message)
+//!     ```
+//!     The first argument is an expression the span info should be taken from.
 //!
-//!   The second argument is the error message, it must implement [`ToString`].
+//!     The second argument is the error message, it must implement [`ToString`].
 //!
 //! 3.  ```ignore
-//!   abort!(span, `format_literal`, `format_args`...)
-//!   ```
+//!     abort!(span, format_literal, format_args...)
+//!     ```
 //!
-//!   This form is pretty much the same as 2, except `format!(format_literal, format_args...)`
-//!   will be used to for the message instead of [`ToString`].
+//!     This form is pretty much the same as 2, except `format!(format_literal, format_args...)`
+//!     will be used to for the message instead of [`ToString`].
 //!
 //! That's it. `abort!`, `emit_warning`, `emit_error` share this exact syntax.
 //!
@@ -210,7 +210,7 @@
 //! > # let input = proc_macro2::TokenStream::new();
 //! > let ty: syn::Type = syn::parse2(input).unwrap();
 //! > abort!(ty, "BOOM");
-//! > //   ^^ <-- avoid .span()
+//! > //     ^^ <-- avoid .span()
 //! > ```
 //! >
 //! > `.span()` calls work too, but you may experience regressions in message quality.
@@ -222,24 +222,24 @@
 //!   let opt_help = if have_some_info { Some("did you mean `this`?") } else { None };
 //!
 //!   abort!(
-//!     span, message; // <--- attachments start with `;` (semicolon)
+//!       span, message; // <--- attachments start with `;` (semicolon)
 //!
-//!     help = "format {} {}", "arg1", "arg2"; // <--- every attachment ends with `;`,
-//!                            //    maybe except the last one
+//!       help = "format {} {}", "arg1", "arg2"; // <--- every attachment ends with `;`,
+//!                                              //      maybe except the last one
 //!
-//!     note = "to_string"; // <--- one arg uses `.to_string()` instead of `format!()`
+//!       note = "to_string"; // <--- one arg uses `.to_string()` instead of `format!()`
 //!
-//!     yay = "I see what {} did here", "you"; // <--- "help =" and "hint =" are mapped
-//!                            // to Diagnostic::help,
-//!                            // anything else is Diagnostic::note
+//!       yay = "I see what {} did here", "you"; // <--- "help =" and "hint =" are mapped
+//!                                              // to Diagnostic::help,
+//!                                              // anything else is Diagnostic::note
 //!
-//!     wow = note_span => "custom span"; // <--- attachments can have their own span
-//!                         //    it takes effect only on nightly though
+//!       wow = note_span => "custom span"; // <--- attachments can have their own span
+//!                                         //      it takes effect only on nightly though
 //!
-//!     hint =? opt_help; // <-- "optional" attachment, get displayed only if `Some`
-//!               //   must be single `Option` expression
+//!       hint =? opt_help; // <-- "optional" attachment, get displayed only if `Some`
+//!                         //     must be single `Option` expression
 //!
-//!     note =? note_span => opt_help // <-- optional attachments can have custom spans too
+//!       note =? note_span => opt_help // <-- optional attachments can have custom spans too
 //!   );
 //!   ```
 //!
@@ -438,14 +438,14 @@ where
     let gen_error = || {
         if proc_macro_hack {
             quote! {{
-              macro_rules! proc_macro_call {
-                () => ( unimplemented!() )
-              }
+                macro_rules! proc_macro_call {
+                    () => ( unimplemented!() )
+                }
 
-              #(#err_storage)*
-              #dummy
+                #(#err_storage)*
+                #dummy
 
-              unimplemented!()
+                unimplemented!()
             }}
         } else {
             quote!( #(#err_storage)* #dummy )
@@ -483,7 +483,7 @@ fn check_correctness() {
     assert!(
         ENTERED_ENTRY_POINT.with(Cell::get) != 0,
         "proc-macro-error2 API cannot be used outside of `entry_point` invocation, \
-         perhaps you forgot to annotate your #[proc_macro] function with `#[proc_macro_error]"
+             perhaps you forgot to annotate your #[proc_macro] function with `#[proc_macro_error]"
     );
 }
 
